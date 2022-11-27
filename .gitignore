@@ -1,1 +1,4 @@
 /ecommerce/htmlcov/
+/venv/
+/ecommerce/.env
+/ecommerce/.coverage
