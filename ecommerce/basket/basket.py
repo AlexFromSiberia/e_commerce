@@ -3,7 +3,7 @@ from decimal import Decimal
 from store.models import Product
 
 
-class Basket():
+class Basket:
     """
     A base Basket class, providing some default behaviors that
     can be inherited or overrided, as necessary.
@@ -11,17 +11,22 @@ class Basket():
 
     def __init__(self, request):
         self.session = request.session
-        basket = self.session.get('skey')
         if 'skey' not in request.session:
-            basket = self.session['skey'] = {}
-        self.basket = basket
+            request.session['skey'] = {}
+        self.basket = self.session.get('skey')
 
-    def add(self, product, qty):
+        # self.session = request.session
+        # basket = self.session.get('skey')
+        # if 'skey' not in request.session:
+        #     basket = self.session['skey'] = {}
+        # self.basket = basket
+
+    def add(self, product_id, qty):
         """
         Adding and updating the users basket session data
         """
-        product_id = str(product.id)
-
+        #product_id = str(product.id)
+        product = Product.objects.get(id=product_id)
         if product_id in self.basket:
             self.basket[product_id]['qty'] = qty
         else:

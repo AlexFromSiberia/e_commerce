@@ -2,4 +2,6 @@ from .basket import Basket
 
 
 def basket(request):
-    return {'basket': Basket(request)}
+    basket = Basket(request)
+    return {'basket': basket}
+
