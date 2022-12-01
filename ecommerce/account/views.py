@@ -12,8 +12,7 @@ from .forms import RegistrationForm, UserEditForm
 from .models import UserBase
 from .tokens import account_activation_token
 from django.core.mail import send_mail
-from ..core.settings import sender_mail
-
+from core.settings import sender_mail
 
 
 @login_required
