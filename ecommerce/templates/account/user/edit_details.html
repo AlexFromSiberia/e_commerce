@@ -29,7 +29,7 @@
                         Details successfully updated!
                     </div>
                     <p class="small text-center pt-0">
-                        <a href="{% url "account:dashboard" %}">Back to Dashboard</a>
+                        <a href="{% url 'account:dashboard' %}">Back to Dashboard</a>
                     </p>
                     {%else%}
                     <h3>Change your details</h3>
@@ -43,10 +43,17 @@
                     {% endif %}
 
                     {% csrf_token %}
-                    <label class="small font-weight-bold">{{ user_form.email.label}}</label>
-                    {{ user_form.email }}
-                    <label class="small font-weight-bold">{{ user_form.first_name.label}}</label>
-                    {{ user_form.first_name }}
+
+                    {{user_form.as_table}}
+<!--                    <label class="small font-weight-bold">{{ user_form.email.label}}</label>-->
+<!--                    {{ user_form.email }}-->
+
+<!--                    <label class="small font-weight-bold">{{ user_form.user_name.label}}</label>-->
+<!--                    {{ user_form.user_name }}-->
+
+
+<!--                    <label class="small font-weight-bold">{{ user_form.first_name.label}}</label>-->
+<!--                    {{ user_form.first_name }}-->
 
 
 
@@ -54,7 +61,7 @@
                         value="Save changes">Save Changes</button>
                     <hr class="mb-3">
                 </form>
-                     <form class="account-form px-4" action="{% url "account:delete_user" %}" method="post">
+                     <form class="account-form px-4" action="{% url 'account:delete_user' %}" method="post">
                         {% csrf_token %}
                         <p class=" h3 pt-4 font-weight-bold">Delete Account</p>
                         <p>Are you sure you want to delete your account?</p>

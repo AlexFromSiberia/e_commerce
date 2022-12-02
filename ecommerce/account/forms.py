@@ -1,10 +1,11 @@
 from django import forms
 from django.contrib.auth.forms import (AuthenticationForm, PasswordResetForm, SetPasswordForm)
 from .models import UserBase
+from django_countries.fields import CountryField
 
 
 class UserLoginForm(AuthenticationForm):
-
+    """Custom login form """
     username = forms.CharField(widget=forms.TextInput(
         attrs={'class': 'form-control mb-3', 'placeholder': 'Username', 'id': 'login-username'}))
     password = forms.CharField(widget=forms.PasswordInput(
@@ -90,6 +91,7 @@ class PwdResetConfirmForm(SetPasswordForm):
 
 
 class UserEditForm(forms.ModelForm):
+    """Edit users details form, page: change details"""
 
     email = forms.EmailField(
         label='Account email (can not be changed)', max_length=200, widget=forms.TextInput(
@@ -97,15 +99,38 @@ class UserEditForm(forms.ModelForm):
 
     user_name = forms.CharField(
         label='Firstname', min_length=4, max_length=50, widget=forms.TextInput(
-            attrs={'class': 'form-control mb-3', 'placeholder': 'Username', 'id': 'form-firstname', 'readonly': 'readonly'}))
+            attrs={'class': 'form-control mb-3', 'placeholder': 'Username', 'id': 'form-user_name', 'readonly': 'readonly'}))
 
     first_name = forms.CharField(
         label='Username', min_length=4, max_length=50, widget=forms.TextInput(
-            attrs={'class': 'form-control mb-3', 'placeholder': 'Firstname', 'id': 'form-lastname'}))
+            attrs={'class': 'form-control mb-3', 'placeholder': 'Firstname', 'id': 'form-first_name'}))
+
+    about = forms.CharField(
+        label='About', max_length=500, widget=forms.Textarea(
+            attrs={'class': 'form-control mb-3', 'placeholder': 'Some information about me', 'id': 'form-about'}))
+    # Delivery details
+    country = CountryField().formfield()
+
+    phone_number = forms.CharField(
+        label='Phone number', max_length=40, widget=forms.TextInput(
+            attrs={'class': 'form-control mb-3', 'id': 'form-Phone_number'}))
+    postcode = forms.CharField(
+            label='postcode', max_length=40, widget=forms.TextInput(
+                attrs={'class': 'form-control mb-3', 'id': 'form-postcode'}))
+    address_line_1 = forms.CharField(
+            label='address_line_1', max_length=40, widget=forms.TextInput(
+                attrs={'class': 'form-control mb-3', 'id': 'form-address_line_1'}))
+    address_line_2 = forms.CharField(
+            label='address_line_2', max_length=40, widget=forms.TextInput(
+                attrs={'class': 'form-control mb-3', 'id': 'form-address_line_2'}))
+    town_city = forms.CharField(
+            label='town_city', max_length=40, widget=forms.TextInput(
+                attrs={'class': 'form-control mb-3', 'id': 'form-town_city'}))
 
     class Meta:
         model = UserBase
-        fields = ('email', 'user_name', 'first_name',)
+        fields = ('email', 'user_name', 'first_name', 'about', 'country',
+                  'phone_number', 'postcode', 'address_line_1', 'address_line_2', 'town_city', )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

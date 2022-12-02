@@ -25,6 +25,7 @@ def dashboard(request):
 
 @login_required
 def edit_details(request):
+    """Page: Edit details. """
     if request.method == 'POST':
         user_form = UserEditForm(instance=request.user, data=request.POST)
 
@@ -33,8 +34,7 @@ def edit_details(request):
     else:
         user_form = UserEditForm(instance=request.user)
 
-    return render(request,
-                  'account/user/edit_details.html', {'user_form': user_form})
+    return render(request, 'account/user/edit_details.html', {'user_form': user_form})
 
 
 @login_required
