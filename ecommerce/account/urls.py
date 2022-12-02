@@ -4,6 +4,7 @@ from django.views.generic import TemplateView
 
 from . import views
 from .forms import (PwdResetConfirmForm, PwdResetForm, UserLoginForm)
+from core.settings import sender_mail
 
 # https://docs.djangoproject.com/en/3.1/topics/auth/default/
 # https://ccbv.co.uk/projects/Django/3.0/django.contrib.auth.views/PasswordResetConfirmView/
@@ -18,7 +19,9 @@ urlpatterns = [
     path('register/', views.account_register, name='register'),
     path('activate/<slug:uidb64>/<slug:token>/', views.account_activate, name='activate'),
     # Reset password
-    path('password_reset/', auth_views.PasswordResetView.as_view(template_name="account/user/password_reset_form.html",
+    # sender_mail - don't forget to change in settings.py
+    path('password_reset/', auth_views.PasswordResetView.as_view(from_email=sender_mail,
+                                                                 template_name="account/user/password_reset_form.html",
                                                                  success_url='password_reset_email_confirm',
                                                                  email_template_name='account/user/password_reset_email.html',
                                                                  form_class=PwdResetForm), name='pwdreset'),

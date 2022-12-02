@@ -68,20 +68,21 @@ class RegistrationForm(forms.ModelForm):
 
 
 class PwdResetForm(PasswordResetForm):
-
+    """Password reset form"""
     email = forms.EmailField(max_length=254, widget=forms.TextInput(
         attrs={'class': 'form-control mb-3', 'placeholder': 'Email', 'id': 'form-email'}))
 
     def clean_email(self):
+        """Checks if there is the e_mail in the database"""
         email = self.cleaned_data['email']
         u = UserBase.objects.filter(email=email)
         if not u:
-            raise forms.ValidationError(
-                'Unfortunatley we can not find that email address')
+            raise forms.ValidationError('Unfortunately we can not find that email address')
         return email
 
 
 class PwdResetConfirmForm(SetPasswordForm):
+    """Form for creating a new password. Validation is already prebuild in Django!"""
     new_password1 = forms.CharField(
         label='New password', widget=forms.PasswordInput(
             attrs={'class': 'form-control mb-3', 'placeholder': 'New Password', 'id': 'form-newpass'}))
