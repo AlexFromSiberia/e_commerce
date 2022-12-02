@@ -1,7 +1,6 @@
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.sites.shortcuts import get_current_site
-from django.core.mail import EmailMessage
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
@@ -17,6 +16,7 @@ from core.settings import sender_mail
 
 @login_required
 def dashboard(request):
+    """Page: Dashboard. Login is required."""
     orders = user_orders(request)
     return render(request,
                   'account/user/dashboard.html',
@@ -65,6 +65,7 @@ def account_register(request):
             # Gets current domain
             current_site = get_current_site(request)
             subject = 'Activation link has been sent to your email id'
+            # the e_mail message is formed from html code: account_activation_email.html
             message = render_to_string('account/registration/account_activation_email.html', {
                 'user': user,
                 'domain': current_site.domain,
@@ -72,7 +73,7 @@ def account_register(request):
                 'token': account_activation_token.make_token(user),
             })
             # sending an activation link via e_mail
-            # Put here your sender_mail address:
+            # Put here your sender_mail address(and check e_mail settings in SETTINGS.py):
             sender = sender_mail
             receiver_mail = user.email
             mail = send_mail(subject, message, sender, [receiver_mail], fail_silently=False)
@@ -83,6 +84,7 @@ def account_register(request):
 
 
 def account_activate(request, uidb64, token):
+    """Checks if the link user used is original, then activates new user account"""
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
         user = UserBase.objects.get(pk=uid)
@@ -91,6 +93,7 @@ def account_activate(request, uidb64, token):
     if user is not None and account_activation_token.check_token(user, token):
         user.is_active = True
         user.save()
+        # Note that data set during the anonymous session is retained when the user logs in.
         login(request, user)
         return redirect('account:dashboard')
     else:
