@@ -35,7 +35,9 @@ def BasketView(request):
         currency='gbp',
         metadata={'userid': request.user.id}
     )
-    return render(request, 'payment/home.html', {'client_secret': intent.client_secret})
+    STRIPE_PUBLIC_KEY = settings.STRIPE_PUBLIC_KEY
+    return render(request, 'payment/payment_form.html', {'client_secret': intent.client_secret,
+                                                         'STRIPE_PUBLIC_KEY': STRIPE_PUBLIC_KEY})
 
 
 @csrf_exempt

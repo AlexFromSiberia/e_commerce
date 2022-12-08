@@ -102,6 +102,7 @@ STRIPE_ENDPOINT_SECRET = ''
 # stripe listen --forward-to localhost:8000/payment/webhook/
 STRIPE_PUBLIC_KEY = os.getenv('STRIPE_PUBLIC_KEY')
 STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')
+os.environ.setdefault('STRIPE_PUBLIC_KEY', STRIPE_PUBLIC_KEY)
 
 
 # USE - custom user model. Instead of default.
