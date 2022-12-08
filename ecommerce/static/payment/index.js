@@ -1,7 +1,7 @@
 //'use strict';
 
 
-var stripe = Stripe('');
+var stripe = Stripe('pk_test_51M7cRnBIBlYWlII2eg1XAVXfi6cNlEmtAO4hGIAk2Ydk45LBpbvpACa4WhwaTZTyX8Qnd247aRtUoP7VORQ3d3yM00jpoXElYv');
 
 var elem = document.getElementById('submit');
 clientsecret = elem.getAttribute('data-secret');
@@ -20,6 +20,7 @@ base: {
 var card = elements.create("card", { style: style });
 card.mount("#card-element");
 
+// in case of errors
 card.on('change', function(event) {
 var displayError = document.getElementById('card-errors')
 if (event.error) {
@@ -30,6 +31,7 @@ if (event.error) {
   $('#card-errors').removeClass('alert alert-info');
 }
 });
+
 
 var form = document.getElementById('payment-form');
 
@@ -83,7 +85,5 @@ var postCode = document.getElementById("postCode").value;
     },
     error: function (xhr, errmsg, err) {},
   });
-
-
 
 });

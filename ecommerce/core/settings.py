@@ -89,7 +89,6 @@ USE_L10N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
-
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
 MEDIA_URL = '/media/'
@@ -99,7 +98,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 BASKET_SESSION_ID = 'basket'
 
 # Stripe Payment
-# STRIPE_ENDPOINT_SECRET = ''
+STRIPE_ENDPOINT_SECRET = ''
 # stripe listen --forward-to localhost:8000/payment/webhook/
 STRIPE_PUBLIC_KEY = os.getenv('STRIPE_PUBLIC_KEY')
 STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')
@@ -111,8 +110,6 @@ LOGIN_REDIRECT_URL = '/account/dashboard'
 LOGIN_URL = '/account/login/'
 
 # Email setting
-#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
 # settings for email sending form:
 EMAIL_HOST = 'smtp.mail.ru'
 EMAIL_PORT = 2525

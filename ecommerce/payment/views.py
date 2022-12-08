@@ -10,7 +10,6 @@ from orders.views import payment_confirmation
 from core import settings
 
 
-
 def order_placed(request):
     basket = Basket(request)
     basket.clear()
@@ -23,11 +22,12 @@ class Error(TemplateView):
 
 @login_required
 def BasketView(request):
+    """Page: Checkout. Transfers information to Stripe.
+    Creates Stripe intention"""
 
     basket = Basket(request)
     total = str(basket.get_total_price())
-    total = total.replace('.', '')
-    total = int(total)
+    total = int(total.replace('.', ''))
 
     stripe.api_key = settings.STRIPE_SECRET_KEY
     intent = stripe.PaymentIntent.create(
@@ -35,12 +35,12 @@ def BasketView(request):
         currency='gbp',
         metadata={'userid': request.user.id}
     )
-
     return render(request, 'payment/home.html', {'client_secret': intent.client_secret})
 
 
 @csrf_exempt
 def stripe_webhook(request):
+    """Confirms billing status"""
     payload = request.body
     event = None
 
