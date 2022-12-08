@@ -75,7 +75,7 @@ def account_register(request):
             sender = sender_mail
             receiver_mail = user.email
             mail = send_mail(subject, message, sender, [receiver_mail], fail_silently=False)
-            return HttpResponse('Please confirm your email address to complete the registration')
+            return render(request, 'account/registration/register_email_confirm.html')
     else:
         registerForm = RegistrationForm()
     return render(request, 'account/registration/register.html', {'form': registerForm})
